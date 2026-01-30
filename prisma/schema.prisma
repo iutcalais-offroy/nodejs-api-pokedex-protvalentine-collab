@@ -28,23 +28,46 @@ enum PokemonType {
   Fairy
 }
 
+
 model Card {
-  id            Int         @id @default(autoincrement())
-  name          String
-  hp            Int
-  attack        Int
-  type          PokemonType
-  pokedexNumber Int
-  imgUrl        String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+    id            Int         @id @default(autoincrement())
+    name          String
+    hp            Int
+    attack        Int
+    type          PokemonType
+    pokedexNumber Int
+    imgUrl        String?
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+    deckCards     DeckCard[]  
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        Int      @id @default(autoincrement())
+    username  String   @unique
+    email     String   @unique
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    decks     Deck[]   
 }
+
+model Deck {
+    id        Int       @id @default(autoincrement())
+    name      String
+    user      User      @relation(fields: [userId], references: [id])
+    userId    Int
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deckCards DeckCard[]  
+}
+
+model DeckCard {
+    id        Int       @id @default(autoincrement())
+    deck      Deck      @relation(fields: [deckId], references: [id])
+    deckId    Int
+    card      Card      @relation(fields: [cardId], references: [id])
+    cardId    Int
+    createdAt DateTime  @default(now())  
+}
+

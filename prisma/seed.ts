@@ -10,6 +10,8 @@ async function main() {
 
     await prisma.card.deleteMany();
     await prisma.user.deleteMany();
+    await prisma.deck.deleteMany();
+    await prisma.deckCard.deleteMany();
 
     const hashedPassword = await bcrypt.hash("password123", 10);
 
@@ -58,7 +60,55 @@ async function main() {
 
     console.log(`✅ Created ${pokemonData.length} Pokemon cards`);
 
-    console.log("\n🎉 Database seeding completed!");
+
+        // Get all cards from database
+        const allCards = await prisma.card.findMany();
+
+        // Create Red's deck with 10 random cards
+        const redDeck = await prisma.deck.create({
+            data: {
+                name: "Starter Deck",
+                userId: redUser!.id,
+            },
+        });
+
+        const shuffledForRed = [...allCards].sort(() => Math.random() - 0.5);
+        
+        for (let i = 0; i < 10; i++) {
+            await prisma.deckCard.create({
+                data: {
+                    deckId: redDeck.id,
+                    cardId: shuffledForRed[i].id,
+                },
+            });
+        }
+
+        console.log(`Red's deck created with 10 cards`);
+
+        // Create Blue's deck with 10 random cards
+        const blueDeck = await prisma.deck.create({
+            data: {
+                name: "Starter Deck",
+                userId: blueUser!.id,
+            },
+        });
+
+        const shuffledForBlue = [...allCards].sort(() => Math.random() - 0.5);
+        
+        for (let i = 0; i < 10; i++) {
+            await prisma.deckCard.create({
+                data: {
+                    deckId: blueDeck.id,
+                    cardId: shuffledForBlue[i].id,
+                },
+            });
+        }
+
+        console.log(`Blue's deck created with 10 cards`);
+
+
+
+        console.log("\n🎉 Database seeding completed!");
 }
 
 main()

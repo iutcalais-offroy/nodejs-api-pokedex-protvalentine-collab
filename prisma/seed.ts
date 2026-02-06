@@ -107,7 +107,6 @@ async function main() {
         console.log(`Blue's deck created with 10 cards`);
 
 
-
         console.log("\n🎉 Database seeding completed!");
 }
 

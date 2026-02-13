@@ -5,7 +5,9 @@ import { prisma } from '../src/database'
 import { CardModel } from '../src/generated/prisma/models/Card'
 import { PokemonType } from '../src/generated/prisma/enums'
 
-/* eslint-disable no-console */
+// remplacements de console
+//const print = console.log
+//const printError = console.error
 
 async function main() {
   console.log('🌱 Starting database seed...')

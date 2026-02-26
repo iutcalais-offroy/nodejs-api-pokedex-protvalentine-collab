@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("postgresql://tcg_user:tcg_password@localhost:5433/tcg_database")
 }
 
 enum PokemonType {

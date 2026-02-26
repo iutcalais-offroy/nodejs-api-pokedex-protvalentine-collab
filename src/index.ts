@@ -32,6 +32,12 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'TCG Backend Server is running' })
 })
 
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
+
 // Start server only if this file is run directly (not imported for tests)
 if (require.main === module) {
   // Create HTTP server
